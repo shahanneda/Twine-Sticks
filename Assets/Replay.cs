@@ -53,7 +53,7 @@
 //}
 using UnityEngine;
 using System.Collections;
-
+using UnityStandardAssets.CrossPlatformInput;
 public class Replay : MonoBehaviour {
 
 	private const int bufferFrames = 100;
@@ -71,7 +71,7 @@ public class Replay : MonoBehaviour {
 	void Update () {
 		if (manager.recording) {
 			Record ();
-		} else {
+		} else if(!manager.recording) {
 			PlayBack ();
 		}
 
@@ -80,7 +80,6 @@ public class Replay : MonoBehaviour {
 	void PlayBack () {
 		rigidBody.isKinematic = true;
 		int frame = Time.frameCount % bufferFrames;
-		print ("Reading frame " + frame);
 		transform.position = keyFrames [frame].position;
 		transform.rotation = keyFrames [frame].rotation;
 	}
@@ -89,7 +88,6 @@ public class Replay : MonoBehaviour {
 		rigidBody.isKinematic = false;
 		int frame = Time.frameCount % bufferFrames;
 		float time = Time.time;
-		print ("Writing frame " + frame);
 		keyFrames [frame] = new MyKeyFrame (time, transform.position, transform.rotation);
 	}
 }

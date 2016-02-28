@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityStandardAssets.CrossPlatformInput;
 public class GameManager : MonoBehaviour {
+	[HideInInspector]
 	public bool recording = true;
 
 	// Use this for initialization
@@ -10,13 +11,19 @@ public class GameManager : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {			
-		print(CrossPlatformInputManager.GetAxis("Replay"));
+	void FixedUpdate () {			
 
 		if (CrossPlatformInputManager.GetButton ("Replay")) {
+			
 			recording = false;
 		}else{
+			
 			recording = true;
 		}
+	}
+	void Update(){
+		print(CrossPlatformInputManager.GetAxis("RightH"));
+		print(CrossPlatformInputManager.GetAxis("RightV"));
+
 	}
 }
