@@ -55,7 +55,7 @@ using UnityEngine;
 using System.Collections;
 using UnityStandardAssets.CrossPlatformInput;
 public class Replay : MonoBehaviour {
-
+	private bool isSelfi;
 	private const int bufferFrames = 100;
 	private MyKeyFrame[] keyFrames = new MyKeyFrame [bufferFrames];
 	private Rigidbody rigidBody;
@@ -63,8 +63,14 @@ public class Replay : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		rigidBody = GetComponent<Rigidbody> ();
+
 		manager = GameObject.FindObjectOfType<GameManager> ();
+		if (this.tag == "Selfi"){
+			isSelfi = true;
+		}
+		if(!isSelfi){
+			rigidBody = GetComponent<Rigidbody> ();
+		}
 	}
 
 	// Update is called once per frame
@@ -78,14 +84,24 @@ public class Replay : MonoBehaviour {
 	}
 
 	void PlayBack () {
+		if(!isSelfi){
 		rigidBody.isKinematic = true;
+		}
+		if (isSelfi) { 
+			GetComponent<SelfiStick>().enabled = false;
+		}
 		int frame = Time.frameCount % bufferFrames;
 		transform.position = keyFrames [frame].position;
 		transform.rotation = keyFrames [frame].rotation;
 	}
 
 	void Record () {
-		rigidBody.isKinematic = false;
+		if(!isSelfi){
+			rigidBody.isKinematic = false;
+		}
+		if (isSelfi) { 
+			GetComponent<SelfiStick>().enabled = true;
+		}
 		int frame = Time.frameCount % bufferFrames;
 		float time = Time.time;
 		keyFrames [frame] = new MyKeyFrame (time, transform.position, transform.rotation);

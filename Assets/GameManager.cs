@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 	void Update(){
-		print(CrossPlatformInputManager.GetAxis("RightH"));
+		print(Input.GetAxis("RightH"));
 		print(CrossPlatformInputManager.GetAxis("RightV"));
 
 	}
